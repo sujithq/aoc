@@ -3,6 +3,8 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
+    [Ignore("Inprogress")]
+
     public class TestDay22
     {
         /// <summary>Test stub for Execute(String)</summary>

@@ -53,6 +53,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\TestDataClass.cs" />
     <Compile Include="TestDay03.cs" />
     <Compile Include="TestDataClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

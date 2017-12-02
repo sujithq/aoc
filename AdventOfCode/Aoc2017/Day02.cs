@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
@@ -8,7 +9,7 @@ namespace Aoc2017
         public int Part1(string input)
         {
             var res = 0;
-            if (string.IsNullOrEmpty(input))
+            if (input.IsNullOrEmpty())
                 return res;
             //Split Into Lines
             var lines = input.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -36,7 +37,7 @@ namespace Aoc2017
         public int Part2(string input)
         {
             var res = 0;
-            if (string.IsNullOrEmpty(input))
+            if (input.IsNullOrEmpty())
                 return res;
             //Split Into Lines
             var lines = input.Split(new[] { Environment.NewLine }, StringSplitOptions.None);

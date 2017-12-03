@@ -48,25 +48,25 @@ namespace Aoc2017.Tests.Helpers
     public class TestMathHelper
     {
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.KCombs))]
-        public IEnumerable<IEnumerable<T>> KCombs<T>(IEnumerable<T> lst, int length) where T : IComparable
+        public IEnumerable<IEnumerable<T>> KCombs<T>(IEnumerable<T> lst, int length) where T : IComparable<T>
         {
             return MathHelper.GetKCombs(lst, length);
         }
 
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.KCombsWithRep))]
-        public IEnumerable<IEnumerable<T>> KCombsWithRep<T>(IEnumerable<T> lst, int length) where T : IComparable
+        public IEnumerable<IEnumerable<T>> KCombsWithRep<T>(IEnumerable<T> lst, int length) where T : IComparable<T>
         {
             return MathHelper.GetKCombsWithRep(lst, length);
         }
 
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.Permutations))]
-        public IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> lst, int length) where T : IComparable
+        public IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> lst, int length) where T : IComparable<T>
         {
             return MathHelper.GetPermutations(lst, length);
         }
 
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.PermutationsWithRep))]
-        public IEnumerable<IEnumerable<T>> PermutationsWithRep<T>(IEnumerable<T> lst, int length) where T : IComparable
+        public IEnumerable<IEnumerable<T>> PermutationsWithRep<T>(IEnumerable<T> lst, int length) where T : IComparable<T>
         {
             return MathHelper.GetPermutationsWithRep(lst, length);
         }

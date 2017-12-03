@@ -3,7 +3,7 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+    
 
     public class TestDay26
     {
@@ -17,6 +17,7 @@ namespace Aoc2017.Tests
 
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD26P2))]
+        [Ignore("Not Applicable")]
         public int Part2(string input)
         {
             var target = new Day26();

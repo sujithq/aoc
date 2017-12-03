@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+    
     public class TestDay03
     {
         /// <summary>Test stub for Execute(String)</summary>

@@ -122,7 +122,7 @@ namespace Aoc2017
 
         public int Part2(string input)
         {
-            return 0;
+            return int.MinValue;
         }
     }
 }

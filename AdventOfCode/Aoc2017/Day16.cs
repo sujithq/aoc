@@ -6,12 +6,12 @@ namespace Aoc2017
     {
         public int Part1(string input)
         {
-            return 0;
+            return int.MinValue;
         }
 
         public int Part2(string input)
         {
-            return 0;
+            return int.MinValue;
         }
     }
 }

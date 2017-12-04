@@ -3,7 +3,7 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+    
 
     public class TestDay04
     {

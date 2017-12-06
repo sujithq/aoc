@@ -9,9 +9,9 @@
 
 [04 High-Entropy Passphrases](http://adventofcode.com/2017/day/4 "High-Entropy Passphrases")
 
-[05 ](http://adventofcode.com/2017/day/5 "")
+[05 A Maze of Twisty Trampolines, All Alike](http://adventofcode.com/2017/day/5 "A Maze of Twisty Trampolines, All Alike")
 
-[06 ](http://adventofcode.com/2017/day/6 "")
+[06 Memory Reallocation](http://adventofcode.com/2017/day/6 "Memory Reallocation")
 
 [07 ](http://adventofcode.com/2017/day/7 "")
 

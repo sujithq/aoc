@@ -6,6 +6,8 @@ namespace Aoc2017
 {
     public class Day06 : IDay
     {
+        private const char Separator = '\t';
+        private const string ConfigSeparator = "|";
         public int Part1(string input)
         {
             var res = 0;
@@ -14,11 +16,11 @@ namespace Aoc2017
                 return int.MinValue;
 
             //Split Into Lines
-            var numbers = input.Split('\t').Select(int.Parse).ToArray();
+            var numbers = input.Split(Separator).Select(int.Parse).ToArray();
 
-            LinkedList<int> ll = new LinkedList<int>(numbers);
+            var ll = new LinkedList<int>(numbers);
 
-            var usedCfg = new List<string> {string.Join("|", ll)};
+            var usedCfg = new List<string> { string.Join(ConfigSeparator, ll) };
 
 
             while (true)
@@ -37,29 +39,28 @@ namespace Aoc2017
                 {
                     currentNode = currentNode.Next ?? ll.First;
 
-                    currentNode.Value += 1;
+                    currentNode.Value++;
                 }
-                if (usedCfg.Contains(string.Join("|", ll)))
+                var cfg = string.Join(ConfigSeparator, ll);
+                if (usedCfg.Contains(cfg))
                 {
                     return res;
                 }
-                usedCfg.Add(string.Join("|", ll));
+                usedCfg.Add(cfg);
             }
         }
 
         public int Part2(string input)
         {
-            var res = 0;
-
             if (input.IsNullOrEmpty())
                 return int.MinValue;
 
             //Split Into Lines
-            var numbers = input.Split('\t').Select(int.Parse).ToArray();
+            var numbers = input.Split(Separator).Select(int.Parse).ToArray();
 
-            LinkedList<int> ll = new LinkedList<int>(numbers);
+            var ll = new LinkedList<int>(numbers);
 
-            var usedCfg = new List<string> { string.Join("|", ll) };
+            var usedCfg = new List<string> { string.Join(ConfigSeparator, ll) };
 
 
             while (true)
@@ -73,18 +74,18 @@ namespace Aoc2017
                 // ReSharper disable once PossibleNullReferenceException
                 currentNode.Value = 0;
 
-                res++;
                 for (var i = 0; i < maxBlock; i++)
                 {
                     currentNode = currentNode.Next ?? ll.First;
 
-                    currentNode.Value += 1;
+                    currentNode.Value++;
                 }
-                if (usedCfg.Contains(string.Join("|", ll)))
+                var cfg = string.Join(ConfigSeparator, ll);
+                if (usedCfg.Contains(cfg))
                 {
-                    return usedCfg.Count - usedCfg.FindIndex(f => f == string.Join("|", ll));
+                    return usedCfg.Count - usedCfg.FindIndex(f => f == cfg);
                 }
-                usedCfg.Add(string.Join("|", ll));
+                usedCfg.Add(cfg);
             }
         }
     }

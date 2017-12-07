@@ -2,7 +2,7 @@
 
 namespace Aoc2017
 {
-    public class Day12 : IDay
+    public class Day12 : IDay<int>
     {
         public int Part1(string input)
         {

@@ -5,7 +5,7 @@ using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
-    public class Day04 : IDay
+    public class Day04 : IDay<int>
     {
         const char separator = ' ';
 

@@ -5,7 +5,7 @@ using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
-    public class Day03 : IDay
+    public class Day03 : IDay<int>
     {
         private enum ActionTypeEnum
         {

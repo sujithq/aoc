@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aoc2017", "Aoc2017\Aoc2017.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aoc2017.Tests", "Aoc2017.Tests\Aoc2017.Tests.csproj", "{30E66712-D30E-4F55-8877-BFE637727F45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AocDay7", "AocDay7\AocDay7.csproj", "{736E77C4-18A1-4F89-AF99-A862AF26A6F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{30E66712-D30E-4F55-8877-BFE637727F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30E66712-D30E-4F55-8877-BFE637727F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30E66712-D30E-4F55-8877-BFE637727F45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736E77C4-18A1-4F89-AF99-A862AF26A6F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736E77C4-18A1-4F89-AF99-A862AF26A6F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736E77C4-18A1-4F89-AF99-A862AF26A6F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736E77C4-18A1-4F89-AF99-A862AF26A6F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

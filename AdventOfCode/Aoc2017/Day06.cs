@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Aoc2017
 {
-    public class Day06 : IDay
+    public class Day06 : IDay<int>
     {
         private const char Separator = '\t';
         private const string ConfigSeparator = "|";

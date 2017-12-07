@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Aoc2017
 {
-    public class Day05 : IDay
+    public class Day05 : IDay<int>
     {
         public int Part1(string input)
         {

@@ -1,8 +1,10 @@
 ﻿namespace Aoc2017
 {
-    public interface IDay
+    public interface IDay<T>
     {
-        int Part1(string input);
-        int Part2(string input);
+        T Part1(string input);
+        T Part2(string input);
     }
+
+    
 }

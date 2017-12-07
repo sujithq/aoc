@@ -9,7 +9,7 @@ using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
-    public partial class Day26 : IDay
+    public partial class Day26 : IDay<int>
     {
         public class Robot
         {

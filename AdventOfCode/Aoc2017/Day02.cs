@@ -4,7 +4,7 @@ using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
-    public class Day02 : IDay
+    public class Day02 : IDay<int>
     {
         public int Part1(string input)
         {

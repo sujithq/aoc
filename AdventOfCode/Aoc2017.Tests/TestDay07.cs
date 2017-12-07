@@ -3,13 +3,13 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+    
 
-    public class TestDay07
+    public class TestDay07:IDay<string>
     {
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD07P1))]
-        public int Part1(string input)
+        public string Part1(string input)
         {
             var target = new Day07();
             return target.Part1(input);
@@ -17,7 +17,7 @@ namespace Aoc2017.Tests
 
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD07P2))]
-        public int Part2(string input)
+        public string Part2(string input)
         {
             var target = new Day07();
             return target.Part2(input);

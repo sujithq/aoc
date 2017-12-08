@@ -13,9 +13,9 @@
 
 [06 Memory Reallocation](http://adventofcode.com/2017/day/6 "Memory Reallocation")
 
-[07 ](http://adventofcode.com/2017/day/7 "")
+[07 Recursive Circus](http://adventofcode.com/2017/day/7 "Recursive Circus")
 
-[08 ](http://adventofcode.com/2017/day/8 "")
+[08 I Heard You Like Registers](http://adventofcode.com/2017/day/8 "I Heard You Like Registers")
 
 [09 ](http://adventofcode.com/2017/day/9 "")
 

@@ -171,46 +171,76 @@ namespace Aoc2017
                 }
             }
 
-            var startNode2 = lst.Single(s => s.Name == bottomProg);
-            var start2 = new List<Node2>() { new Node2() { Name = startNode2.Name, Weight = startNode2.Weight, Sum = startNode2.Sum } };
+            //var startNode2 = lst.Single(s => s.Name == bottomProg);
+            //var start2 = new List<Node2>() { new Node2() { Name = startNode2.Name, Weight = startNode2.Weight, Sum = startNode2.Sum } };
 
-            StartNodes = new List<string>() { bottomProg };
+            //StartNodes = new List<string>() { bottomProg };
 
-            while (true)
+            //while (true)
+            //{
+            //    var nextStartNodes = new List<string>();
+            //    foreach (var startNode in StartNodes)
+            //    {
+            //        var root = lst.Single(s => s.Name == startNode);
+
+            //        var strt = start2.Recursive(p => p.Children, p => p.Name == startNode).First();
+            //        strt.Children = lst.Where(w => root.Children.Contains(w.Name)).ToList().Select(s => new Node2() { Name = s.Name, Weight = s.Weight, Sum = s.Sum }).ToList();
+            //        nextStartNodes.AddRange(root.Children);
+            //    }
+
+            //    if (nextStartNodes.Count == 0)
+            //        break;
+            //    else
+            //    {
+            //        StartNodes = nextStartNodes.ToList();
+            //    }
+            //}
+
+            //var json = JsonConvert.SerializeObject(start2.First(), new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //});
+
+
+            //var noEdges = lst.Where(w => w.Children.Count > 0).ToList();
+            //var gNoEdges = noEdges.GroupBy(g => g.Parent);
+
+            //foreach (var gNoEdge in gNoEdges)
+            //{
+            //    var x = gNoEdge.GroupBy(g => g.Sum).Where(w => w.Count() == 1);
+            //    if (x.Any())
+            //        Console.WriteLine();
+            //}
+
+
+            var noedges = lst.Where(w => w.Sum != w.Weight).Where(w=>w.Parent!=null).ToList();
+
+            var noedgesGroup2 = noedges.GroupBy(g => new {g.Parent});
+
+            foreach (var gParent in noedgesGroup2)
             {
-                var nextStartNodes = new List<string>();
-                foreach (var startNode in StartNodes)
+                var noedgesGroup = gParent.GroupBy(g => g.Sum);
+                if (noedgesGroup.Count() == 2)
                 {
-                    var root = lst.Single(s => s.Name == startNode);
+                    var oneV = noedgesGroup.Where(w => w.Count() == 1).First().First();
+                    var otherV = noedgesGroup.Where(w => w.Count() != 1).First().First();
 
-                    var strt = start2.Recursive(p => p.Children, p => p.Name == startNode).First();
-                    strt.Children = lst.Where(w => root.Children.Contains(w.Name)).ToList().Select(s => new Node2() { Name = s.Name, Weight = s.Weight, Sum = s.Sum }).ToList();
-                    nextStartNodes.AddRange(root.Children);
-                }
+                    var min = Math.Min(oneV.Sum, otherV.Sum);
+                    var max = Math.Max(oneV.Sum, otherV.Sum);
 
-                if (nextStartNodes.Count == 0)
-                    break;
-                else
-                {
-                    StartNodes = nextStartNodes.ToList();
+                    if (oneV.Sum == min)
+                    {
+                        return (oneV.Weight + max - min).ToString();
+                    }
+                    else
+                    {
+                        return (oneV.Weight - max + min).ToString();
+                    }
                 }
             }
 
-            var json = JsonConvert.SerializeObject(start2.First(), new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+                
 
-
-            var noEdges = lst.Where(w => w.Children.Count > 0).ToList();
-            var gNoEdges = noEdges.GroupBy(g => g.Parent);
-
-            foreach (var gNoEdge in gNoEdges)
-            {
-                var x = gNoEdge.GroupBy(g => g.Sum).Where(w => w.Count() == 1);
-                if (x.Any())
-                    Console.WriteLine();
-            }
             return lst.Single(f => f.Parent == null).Name;
         }
 

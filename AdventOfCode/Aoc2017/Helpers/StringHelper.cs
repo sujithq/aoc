@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Aoc2017.Helpers
 {
@@ -10,6 +11,179 @@ namespace Aoc2017.Helpers
         {
             return string.IsNullOrEmpty(input);
         }
+
+        public static string Clean(this string input, char escape = '!')
+        {
+            var newString = new List<char>();
+
+            for (var i = 0; i < input.Length; i++)
+            {
+                newString.Add(input[i]);
+                if (input[i] == escape)
+                {
+                    i++;
+                    continue;
+                }
+
+            }
+            return new string(newString.ToArray());
+        }
+
+        public static List<string> Garbage(this string input, char start = '<', char end = '>')
+        {
+            if (input == string.Empty)
+                return new List<string> { input };
+            var result = new List<string>();
+            var newString = new List<char>();
+
+            var inputString = input;
+
+            for (var i = 0; i < inputString.Length; i++)
+            {
+                if (inputString[i] == start)
+                {
+                    var idx = inputString.ToArray().ToList().FindIndex(i, p => p == end);
+                    result.Add(inputString.Substring(i, idx - i + 1));
+                    i = idx;
+                }
+            }
+            return result;
+        }
+
+        public static List<string> Garbage2(this string input)
+        {
+            var result = new List<string>();
+            var matchCollection = Regex2.Matches(input);
+            if (matchCollection.Count != 0)
+            {
+                //foreach (Match c in matchCollection)
+                //{
+                //    var s = c.Value.Substring(1, c.Value.Length - 2);//;
+
+                //    if (s.IsSurrounded())
+                //    {
+                //        sum += Score(s, level + 1);
+                //    }
+                //    else
+                //    {
+                //        int start = 0;
+
+                //        for (int j = 0; start + j < s.Length; j++)
+                //        {
+                //            if (s.Substring(start, j + 1).IsSurrounded())
+                //            {
+                //                sum += Score(s.Substring(start, j + 1), level + 1);
+                //                start += j + 2;
+                //                j = 0;
+                //                Console.WriteLine();
+                //            }
+                //            else
+                //            {
+                //                Console.WriteLine();
+                //            }
+                //        }
+                //        //foreach (var s1 in s.Split(','))
+                //        //{
+                //        //    sum += Score(s1, level + 1);
+                //        //}
+                //    }
+
+                //    //
+                //}
+            }
+            return result;
+        }
+
+        public static string ReplaceFirstOccurrence(this string source, string find, string replace)
+        {
+            var place = source.IndexOf(find, StringComparison.Ordinal);
+            var result = source.Remove(place, find.Length).Insert(place, replace);
+            return result;
+        }
+        static readonly Regex Regex = new Regex(@"
+    \(                    # Match (
+    (
+        [^()]+            # all chars except ()
+        | (?<Level>\()    # or if ( then Level += 1
+        | (?<-Level>\))   # or if ) then Level -= 1
+    )+                    # Repeat (to go from inside to outside)
+    (?(Level)(?!))        # zero-width negative lookahead assertion
+    \)                    # Match )",
+            RegexOptions.IgnorePatternWhitespace);
+
+        static readonly Regex Regex2 = new Regex(@"
+    \<                    # Match (
+    (
+        [^<>]+            # all chars except ()
+        | (?<Level>\<)    # or if ( then Level += 1
+        | (?<-Level>\>)   # or if ) then Level -= 1
+    )+                    # Repeat (to go from inside to outside)
+    (?(Level)(?!))        # zero-width negative lookahead assertion
+    \>                    # Match )",
+            RegexOptions.IgnorePatternWhitespace);
+
+        public static int Score(this string input, int level)
+        {
+            var matchCollection = Regex.Matches(input);
+            if (matchCollection.Count != 0)
+            {
+                var sum = 0;
+                foreach (Match c in matchCollection)
+                {
+                    var s = c.Value.Substring(1, c.Value.Length - 2);//;
+
+                    if (s.IsSurrounded())
+                    {
+                        sum += Score(s, level + 1);
+                    }
+                    else
+                    {
+                        int start = 0;
+
+                        for (int j = 0; start + j < s.Length; j++)
+                        {
+                            if (s.Substring(start, j + 1).IsSurrounded())
+                            {
+                                sum += Score(s.Substring(start, j + 1), level + 1);
+                                start += j +2;
+                                j = 0;
+                                Console.WriteLine();
+                            }
+                            else
+                            {
+                                Console.WriteLine();
+                            }
+                        }
+                        //foreach (var s1 in s.Split(','))
+                        //{
+                        //    sum += Score(s1, level + 1);
+                        //}
+                    }
+
+                    //
+                }
+                return level + sum;
+            }
+            return level;
+
+        }
+        public static bool IsSurrounded(this string value, char start = '(', char end = ')')
+        {
+            bool isValid = value[0] == start && value[value.Length - 1] == end;
+            int i = 1;
+            int c = 0;
+            for (; isValid && c >= 0 && i < value.Length - 1; i++)
+            {
+                if (value[i] == start)
+                    c++;
+                else if (value[i] == end)
+                    c--;
+            }
+
+            return (isValid && i == (value.Length - 1) && c == 0);
+        }
+
+
     }
 
     public static class IEnumerableExtensions

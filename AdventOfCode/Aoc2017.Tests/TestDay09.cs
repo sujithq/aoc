@@ -3,7 +3,7 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+    
 
     public class TestDay09
     {
@@ -16,6 +16,7 @@ namespace Aoc2017.Tests
         }
 
         /// <summary>Test stub for Execute(String)</summary>
+        [Ignore("Inprogress")]
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD09P2))]
         public int Part2(string input)
         {

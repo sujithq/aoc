@@ -183,6 +183,12 @@ namespace Aoc2017.Helpers
             return (isValid && i == (value.Length - 1) && c == 0);
         }
 
+        public static string GetIntBinaryString(this long value, int totalWidth = 32)
+        {
+            // Use Convert class and PadLeft.
+            return Convert.ToString(value, 2).PadLeft(totalWidth, '0');
+        }
+
 
     }
 

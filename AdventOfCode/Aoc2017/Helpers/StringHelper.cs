@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+
 namespace Aoc2017.Helpers
 {
     public static class StringHelper
@@ -183,10 +184,11 @@ namespace Aoc2017.Helpers
             return (isValid && i == (value.Length - 1) && c == 0);
         }
 
-        public static string GetIntBinaryString(this long value, int totalWidth = 32)
+        public static ReadOnlySpan<char> GetIntBinaryString(this long value, int totalWidth = 32)
         {
             // Use Convert class and PadLeft.
-            return Convert.ToString(value, 2).PadLeft(totalWidth, '0');
+
+            return Convert.ToString(value, 2).PadLeft(totalWidth, '0').AsSpan();
         }
 
 

@@ -16,12 +16,11 @@ namespace Aoc2017.Tests
         }
 
         /// <summary>Test stub for Execute(String)</summary>
-        [Ignore("Inprogress")]
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD15P2))]
-        public int Part2(string input)
+        public int Part2(string input, int count)
         {
             var target = new Day15();
-            return target.Part2(input);
+            return target.Part2(input, count);
         }
     }
 }

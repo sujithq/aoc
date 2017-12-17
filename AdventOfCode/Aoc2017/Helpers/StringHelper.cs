@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 
@@ -146,7 +147,7 @@ namespace Aoc2017.Helpers
                             if (s.Substring(start, j + 1).IsSurrounded())
                             {
                                 sum += Score(s.Substring(start, j + 1), level + 1);
-                                start += j +2;
+                                start += j + 2;
                                 j = 0;
                                 Console.WriteLine();
                             }
@@ -222,5 +223,36 @@ namespace Aoc2017.Helpers
                 }
             }
         }
+    }
+
+
+    public static class NumberHelper
+    {
+        public static int ToInt(this string input)
+        {
+            return int.Parse(input);
+        }
+
+        public static int ToInt(this char[]input)
+        {
+            return int.Parse(new string(input));
+        }
+        public static int ToInt(this ReadOnlySpan<char> input)
+        {
+            return int.Parse(Encoding.ASCII.GetString(Encoding.ASCII.GetBytes(input.ToArray())));
+        }
+
+        public static int ToInt2(this ReadOnlySpan<char> input)
+        {
+            var mp = 1;
+            var res = 0;
+            foreach (var i in input.ToArray().Reverse().Select(s=>s-'0'))
+            {
+                res += mp * i;
+                mp *= 10;
+            }
+            return res;
+        }
+
     }
 }

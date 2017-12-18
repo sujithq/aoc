@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Aoc2017.Helpers;
 
 namespace Aoc2017
 {
-
-
     public class Day09 : IDay<int>
     {
         public int Part1(string input)
@@ -13,38 +10,72 @@ namespace Aoc2017
             if (input.IsNullOrEmpty())
                 return int.MinValue;
 
-            var chars = input.ToList().Distinct();
+            var span = input.AsSpan();
 
-            var removals = chars.Select(s => new string(new[] {'!', s}));
+            var isGarbage = false;
+            var level = 0;
+            var sum = 0;
+            for (var i = 0; i < span.Length; i++)
+            {
+                switch (span[i])
+                {
+                    case '{':
+                        if (!isGarbage)
+                            ++level;
+                        continue;
+                    case '}':
+                        if (!isGarbage)
+                            sum += level--;
+                        continue;
+                    case '<':
+                        isGarbage = true;
+                        continue;
+                    case '>':
+                        isGarbage = false;
+                        continue;
+                    case '!':
+                        ++i;
+                        continue;
+                    default:
+                        continue;
+                }
+            }
 
-            var clean = input.Clean();
-            //string clean = input;
-
-            //foreach (var removal in removals)
-            //{
-            //    clean = clean.Replace(removal, "!");
-            //}
-
-            var garbage = clean.Garbage();
-
-            clean 
-                = garbage
-                .Aggregate(clean, (current, g) => current.ReplaceFirstOccurrence(g, string.Empty))
-                .Replace("{,}", "{}")
-                .Replace("{,{", "{{")
-                .Replace("},}", "}}")
-                .Replace("{", "(")
-                .Replace("}", ")");
-
-            return clean.Score(1);
-
-            //15559
-            //17254
+            return sum;
         }
 
         public int Part2(string input)
         {
-            return int.MinValue;
+            if (input.IsNullOrEmpty())
+                return int.MinValue;
+
+            var span = input.AsSpan();
+
+            var isGarbage = false;
+            var numOfGarbageCharacters = 0;
+            for (var i = 0; i < span.Length; i++)
+            {
+                switch (span[i])
+                {
+                    case '<':
+                        if (isGarbage)
+                            ++numOfGarbageCharacters;
+                        isGarbage = true;
+                        continue;
+                    case '>':
+                        isGarbage = false;
+                        continue;
+                    case '!':
+                        ++i;
+                        continue;
+                    default:
+                        if (isGarbage)
+                            ++numOfGarbageCharacters;
+                        continue;
+                }
+            }
+
+            return numOfGarbageCharacters;
         }
     }
 }

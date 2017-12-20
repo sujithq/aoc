@@ -103,33 +103,44 @@ namespace Aoc2017
 
         public int Part1(string input)
         {
-            var startPoint = new Point11(0, 0);
-            _movs = new Dictionary<Movement11Enum, Point11>()
-            {
-                {Movement11Enum.n, new Point11(0,2)}
-                ,{Movement11Enum.s , new Point11(0,-2)}
-                ,{Movement11Enum.ne, new Point11(1,1)}
-                ,{Movement11Enum.se, new Point11(1,-1)}
-                ,{Movement11Enum.nw, new Point11(-1,1)}
-                ,{Movement11Enum.sw, new Point11(-1,-1)}
-            };
-
-            if (input.IsNullOrEmpty())
-                return int.MinValue;
-
-            startPoint = input.Split(',').Aggregate(startPoint, (current, s) =>
-            {
-                var c = current + _movs[(Movement11Enum)Enum.Parse(typeof(Movement11Enum), s)];
-                c.MaxDistance = c.Distance > current.MaxDistance ? c.Distance : current.MaxDistance;
-                return c;
-            });
+            var startPoint = GetEndPoint(input);
+            return startPoint.Distance;
 
             return startPoint.Distance;
         }
 
+        private Point11 GetEndPoint(string input)
+        {
+            var startPoint = new Point11(0, 0);
+            _movs = new Dictionary<Movement11Enum, Point11>()
+            {
+                {Movement11Enum.n, new Point11(0, 2)},
+                {Movement11Enum.s, new Point11(0, -2)},
+                {Movement11Enum.ne, new Point11(1, 1)},
+                {Movement11Enum.se, new Point11(1, -1)},
+                {Movement11Enum.nw, new Point11(-1, 1)},
+                {Movement11Enum.sw, new Point11(-1, -1)}
+            };
+
+            if (input.IsNullOrEmpty())
+            {
+                return startPoint;
+            }
+
+            startPoint = input.Split(',').Aggregate(startPoint, (current, s) =>
+            {
+                var c = current + _movs[(Movement11Enum) Enum.Parse(typeof(Movement11Enum), s)];
+                c.MaxDistance = c.Distance > current.MaxDistance ? c.Distance : current.MaxDistance;
+                return c;
+            });
+            return startPoint;
+        }
+
         public int Part2(string input)
         {
-            return int.MinValue;
+            var startPoint = GetEndPoint(input);
+            return startPoint.MaxDistance;
+
         }
     }
 }

@@ -12,11 +12,10 @@ namespace Aoc2017
 
     internal class Point11 : IComparable<Point11>
     {
-        public Point11(Point p)
-        {
-            X = p.X;
-            Y = p.Y;
-        }
+        static readonly double Sqrt3 = Math.Pow(3, 0.5);
+        static double yStep = Sqrt3 / 2;
+        static double xStep = 1.5;
+
         public Point11(double x, double y)
         {
             X = x;
@@ -25,8 +24,49 @@ namespace Aoc2017
         public double X { get; set; }
         public double Y { get; set; }
 
-        public static Point11 operator +(Point11 c1, Point11 c2) =>
-            new Point11(c1.X + c2.X, c1.Y + c2.Y);
+        public int Distance
+        {
+            get
+            {
+                var x = X * xStep;
+                var y = Y * yStep;
+
+                //calculate crosspoint axis \
+                var m = Sqrt3 / 3;
+
+                if (x >= 0 && y >= 0)
+                {
+                }
+                else if (x < 0 && y > 0)
+                    m = -m;
+
+                else if (x <= 0 && y <= 0)
+                {
+                }
+
+                else if (x > 0 && y < 0)
+                    m = -m;
+                else
+                    return 0;
+
+                var cy = m * x;
+                var cx = x;
+
+                var dx = Math.Abs(Math.Abs(y) - Math.Abs(cy)) / 2 / yStep;
+
+                var d0 = Math.Sqrt(cx * cx + cy * cy) / 2 / yStep;
+
+                return (int)(dx + d0);
+            }
+        }
+
+        public int MaxDistance { get; set; }
+
+        public static Point11 operator +(Point11 c1, Point11 c2)
+        {
+            var p = new Point11(c1.X + c2.X, c1.Y + c2.Y);
+            return p;
+        }
 
         public int CompareTo(Point11 other)
         {
@@ -52,47 +92,39 @@ namespace Aoc2017
             return -1;
         }
 
-        public override string ToString() => $"({this.X},{this.Y})";
+        public override string ToString() => $"({X},{Y})";
 
     }
 
     public class Day11 : IDay<int>
     {
-        private Dictionary<Movement11Enum, Point11> movs;
+        private Dictionary<Movement11Enum, Point11> _movs;
 
 
         public int Part1(string input)
         {
-            Point11 startPoint = new Point11(0, 0);
-            var sqrt3 = (double)Math.Pow(3, 0.5);
-            var height = sqrt3;
-            movs = new Dictionary<Movement11Enum, Point11>()
+            var startPoint = new Point11(0, 0);
+            _movs = new Dictionary<Movement11Enum, Point11>()
             {
-                {Movement11Enum.n, new Point11(2*height,0)}
-                ,{Movement11Enum.s , new Point11(-2*height,0)}
-                ,{Movement11Enum.ne, new Point11(1.5*height,height)}
-                ,{Movement11Enum.se, new Point11(1.5*height,-height)}
-                ,{Movement11Enum.nw, new Point11(-1.5*height,height)}
-                ,{Movement11Enum.sw, new Point11(-1.5*height,-height)}
+                {Movement11Enum.n, new Point11(0,2)}
+                ,{Movement11Enum.s , new Point11(0,-2)}
+                ,{Movement11Enum.ne, new Point11(1,1)}
+                ,{Movement11Enum.se, new Point11(1,-1)}
+                ,{Movement11Enum.nw, new Point11(-1,1)}
+                ,{Movement11Enum.sw, new Point11(-1,-1)}
             };
 
             if (input.IsNullOrEmpty())
                 return int.MinValue;
 
-            startPoint = input.Split(',').Aggregate(startPoint, (current, s) => current + movs[(Movement11Enum)Enum.Parse(typeof(Movement11Enum), s)]);
+            startPoint = input.Split(',').Aggregate(startPoint, (current, s) =>
+            {
+                var c = current + _movs[(Movement11Enum)Enum.Parse(typeof(Movement11Enum), s)];
+                c.MaxDistance = c.Distance > current.MaxDistance ? c.Distance : current.MaxDistance;
+                return c;
+            });
 
-            //calculate crosspoint axis \
-            var m = 2 * sqrt3 / 3;
-            var cx = startPoint.Y + m * startPoint.X / 2 / m;
-            var cy = startPoint.Y + m * startPoint.X;
-
-            var d0 = Math.Pow(cx * cx + cy * cy, 0.5);
-
-            var dc = Math.Pow(Math.Pow(startPoint.X - cx,2) + Math.Pow(startPoint.Y - cy, 2), 0.5); ;
-
-
-            var steps = 0;
-            return (int)steps;
+            return startPoint.Distance;
         }
 
         public int Part2(string input)

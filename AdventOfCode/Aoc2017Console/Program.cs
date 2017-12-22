@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Aoc2017Console
 {
     class Program
     {
 
-        
+
 
         static void Main(string[] args)
         {
-            var input = @"{}".Replace("{","(").Replace("}",")");
-            //Console.WriteLine("Score ({0}) for '{1}'", Score(input, 1), input);
-            //input = "(())";
-            //Console.WriteLine("Score ({0}) for '{1}'", Score(input, 1), input);
-            //input = "((),())";
-            //Console.WriteLine("Score ({0}) for '{1}'", Score(input, 1), input);
+
             Console.ReadKey();
-            
+
         }
 
-        
+
+        /* Index To Row/Col
+         * int row = index/n;
+         * int col = index%n 
+         */
+
+        /* Row/Col To Index
+         * int index = row * n + col
+         */
     }
 }

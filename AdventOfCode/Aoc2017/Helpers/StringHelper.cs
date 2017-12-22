@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -233,7 +235,7 @@ namespace Aoc2017.Helpers
             return int.Parse(input);
         }
 
-        public static int ToInt(this char[]input)
+        public static int ToInt(this char[] input)
         {
             return int.Parse(new string(input));
         }
@@ -246,12 +248,46 @@ namespace Aoc2017.Helpers
         {
             var mp = 1;
             var res = 0;
-            foreach (var i in input.ToArray().Reverse().Select(s=>s-'0'))
+            foreach (var i in input.ToArray().Reverse().Select(s => s - '0'))
             {
                 res += mp * i;
                 mp *= 10;
             }
             return res;
+        }
+
+
+        public static string Rotate3(this string input)
+        {
+            var span = input.ToList();
+
+            return new string(span.Swap(0, 1)
+                .Swap(0, 2)
+                .Swap(0, 5)
+                .Swap(0, 8)
+                .Swap(0, 7)
+                .Swap(0, 6)
+                .Swap(0, 3)
+                .ToArray());
+        }
+
+        public static string Rotate2(this string input)
+        {
+            var span = input.ToList();
+
+            return new string(span.Swap(0, 1)
+                .Swap(0, 3)
+                .Swap(0, 2)
+                .ToArray());
+        }
+
+        private static List<char> Swap(this List<char> input, int x, int y)
+        {
+
+            var t = input[x];
+            input[x] = input[y];
+            input[y] = t;
+            return input;
         }
 
     }

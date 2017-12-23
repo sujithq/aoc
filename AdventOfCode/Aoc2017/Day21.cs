@@ -8,53 +8,45 @@ namespace Aoc2017
     public class FractalArt
     {
         private const string Start = @".#...####";
-        private Dictionary<string, string> RawRules { get; } = new Dictionary<string, string>();
+        private Dictionary<string, string> Rules { get; } = new Dictionary<string, string>();
         public FractalArt(string input)
         {
             var lines = input.Split(new[] { Environment.NewLine }, StringSplitOptions.None).Select(s => s.Split(new[] { " => " }, StringSplitOptions.None));
 
-            var rawRules2 = lines.ToDictionary(k => k[0], v => v[1]);
+            var rawRules = lines.ToDictionary(k => k[0], v => v[1]);
 
-            foreach (var rawRule in rawRules2)
+            foreach (var rawRule in rawRules)
             {
                 var variants = Variant(rawRule.Key);
 
                 foreach (var variant in variants)
                 {
-                    if (!RawRules.ContainsKey(variant))
-                        RawRules.Add(variant, rawRule.Value);
-                    else
-                    {
-                        Console.WriteLine();
-                    }
+                    if (!Rules.ContainsKey(variant))
+                        Rules.Add(variant, rawRule.Value);
                 }
             }
-
-            //DisplayRulesAndVariants();
-
-
         }
 
-        private HashSet<string> Variant(string key)
+        private static IEnumerable<string> Variant(string key)
         {
-            var ps = key.Split('/');
+            var splittedKey = key.Split('/');
 
-            var variants = new HashSet<string>() { key };
-            var join = string.Join("", ps);
-
-
+            var variants = new HashSet<string> { key };
+            var cleanKey = key.Replace("/", string.Empty);
+            
+            //Get Rotated Variants
             for (var i = 0; i < 3; i++)
             {
-                join = ps.Length == 2 ? join.Rotate2() : join.Rotate3().Rotate3();
+                cleanKey = splittedKey.Length == 2 ? cleanKey.Rotate2() : cleanKey.Rotate3().Rotate3();
 
-                var l = ps.Select((t, j) => join.Skip(j * ps.Length).Take(ps.Length)).Select(x => new string(x.ToArray())).ToList();
+                var l = splittedKey.Select((t, j) => cleanKey.Skip(j * splittedKey.Length).Take(splittedKey.Length)).Select(x => new string(x.ToArray())).ToList();
 
                 var item = string.Join("/", l);
                 variants.Add(item);
             }
 
             var xxx = key.ToList();
-            if (ps.Length == 2)
+            if (splittedKey.Length == 2)
             {
                 variants.Add(new string(xxx.Swap(0, 1).Swap(3, 4).ToArray()));
                 variants.Add(new string(xxx.Swap(0, 3).Swap(1, 4).ToArray()));
@@ -93,11 +85,11 @@ namespace Aoc2017
                     var key = string.Join("/", l);
 
 
-                    var rule = RawRules.FirstOrDefault(w => w.Key == key);
+                    var rule = Rules.FirstOrDefault(w => w.Key == key);
 
                     if (rule.Key != key)
                     {
-                        rule = RawRules.FirstOrDefault(f => Variant(key).ToList().Contains(f.Key));
+                        rule = Rules.FirstOrDefault(f => Variant(key).ToList().Contains(f.Key));
                     }
                     return rule.Value.Replace("/", "").ToList();
                 }).ToList();

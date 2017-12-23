@@ -28,14 +28,5 @@ namespace Aoc2017.Tests
             var target = new Day21();
             return target.Part1(input, iterarions);
         }
-
-        /// <summary>Test stub for Execute(String)</summary>
-        [Ignore("Inprogress")]
-        [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD21P2))]
-        public int Part2(string input)
-        {
-            var target = new Day21();
-            return target.Part2(input);
-        }
     }
 }

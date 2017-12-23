@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Metadata;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -271,6 +269,70 @@ namespace Aoc2017.Helpers
                 .ToArray());
         }
 
+        public static IEnumerable<List<T>> Split<T>(this List<T> l)
+        {
+            var d = l.Count % 2 == 0 ? 2 : 3;
+            var d2 = d * d;
+
+            if (l.Count == d2)
+                return new List<List<T>> { l };
+
+            var n = (int)Math.Sqrt(l.Count);
+
+            var ll = new List<List<T>>();
+
+            var numOfSubLists = l.Count / d2;
+            for (var i = 0; i < numOfSubLists; i++)
+            {
+                ll.Add(Enumerable.Repeat(default(T), d2).ToList());
+            }
+
+            var nsl = (int)Math.Sqrt(numOfSubLists);
+
+            for (var r = 0; r < nsl; r++)
+            {
+                for (var c = 0; c < nsl; c++)
+                {
+                    var i = r * nsl + c;
+
+                    for (var rr = 0; rr < d; rr++)
+                    {
+                        for (var cc = 0; cc < d; cc++)
+                        {
+                            ll[i][rr * d + cc] = l[(r * d + rr) * n + d * c + cc];
+                        }
+                    }
+                }
+            }
+            return ll;
+        }
+
+        public static List<T> Combine<T>(this List<List<List<T>>> l, int d, int n)
+        {
+            var res = Enumerable.Repeat(default(T), n * n).ToList();
+
+            var nsl = (int)Math.Sqrt(l.Count);
+
+            for (var r = 0; r < nsl; r++)
+            {
+                for (var c = 0; c < nsl; c++)
+                {
+                    var i = r * nsl + c;
+
+                    for (var rr = 0; rr < d; rr++)
+                    {
+                        for (var cc = 0; cc < d; cc++)
+                        {
+                            res[(r * d + rr) * n + d * c + cc] = l[i][rr][cc];
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+
+
+
         public static string Rotate2(this string input)
         {
             var span = input.ToList();
@@ -281,7 +343,7 @@ namespace Aoc2017.Helpers
                 .ToArray());
         }
 
-        private static List<char> Swap(this List<char> input, int x, int y)
+        public static List<char> Swap(this List<char> input, int x, int y)
         {
 
             var t = input[x];

@@ -65,34 +65,63 @@ namespace Aoc2017
                 {
                     var str = new string(s.ToArray());
 
-                    List<string> l = new List<string>();
+                    var l = new List<string>();
 
-                    for (int j = 0; j < d; j++)
+                    for (var j = 0; j < d; j++)
                     {
                         l.Add(str.Substring(j * d, d));
                     }
                     return RawRules[string.Join("/", l)].Replace("/", "").ToList();
                 }).ToList();
 
-                var x = new List<List<List<char>>>(Enumerable.Repeat(Enumerable.Repeat(Enumerable.Repeat(' ', d + 1).ToList(), d + 1).ToList(), t.Count));
+                var x = new List<List<List<char>>>();
+                //var x = new List<List<List<char>>>(Enumerable.Repeat(Enumerable.Repeat(Enumerable.Repeat(' ', d + 1).ToList(), d + 1).ToList(), t.Count));
 
-                for (int j = 0; j < x.Count; j++)
+                for (int l = 0; l < t.Count; l++)
+                {
+                    x.Add(new List<List<char>>());
+                    for (int j = 0; j < d + 1; j++)
+                    {
+                        x[l].Add(new List<char>());
+                        for (int k = 0; k < d + 1; k++)
+                        {
+                            x[l][j].Add(default(char));
+                        }
+
+                    }
+
+                }
+
+                for (var j = 0; j < x.Count; j++)
                 {
                     var str = new string(t[j].ToArray()).ToList();
 
-                    for (int k = 0; k < str.Count; k++)
-                    {
-                        int row = k / (d + 1);
-                        int col = k % (d + 1);
+                    var dd = (int) Math.Sqrt(t[j].Count);
 
-                        x[j][row][col] = str[k];
+                    //for (int k = 0; k < str.Count; k++)
+                    //{
+                    //    int row = k / (dd);
+                    //    int col = k % (dd);
+
+                    //    x[j][row][col] = str[k];
+                    //}
+
+                    for (var k = 0; k < dd; k++)
+                    {
+                        for (var l = 0; l < dd; l++)
+                        {
+                            var index = k * dd + l;
+                            x[j][k][l] = str[index];
+                        }
                     }
                 }
+
+                startSpan = Combine(x, d + 1, (int)Math.Sqrt(x.Sum(s => s.Sum(ss => ss.Count))) );
 
 
                 Console.WriteLine();
             }
-            return lights;
+            return startSpan.Count(c=>c=='#');
         }
 
         private static IEnumerable<List<T>> Split<T>(List<T> l)
@@ -131,6 +160,30 @@ namespace Aoc2017
                 }
             }
             return ll;
+        }
+
+        private static List<T> Combine<T>(List<List<List<T>>> l, int d, int n)
+        {
+            var res = Enumerable.Repeat(default(T), n * n).ToList();
+
+            var nsl = (int)Math.Sqrt(l.Count);
+
+            for (var r = 0; r < nsl; r++)
+            {
+                for (var c = 0; c < nsl; c++)
+                {
+                    var i = r * nsl + c;
+
+                    for (var rr = 0; rr < d; rr++)
+                    {
+                        for (var cc = 0; cc < d; cc++)
+                        {
+                            res[(r * d + rr) * n + d * c + cc] = l[i][rr][cc];
+                        }
+                    }
+                }
+            }
+            return res;
         }
 
 

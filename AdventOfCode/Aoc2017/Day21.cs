@@ -69,7 +69,7 @@ namespace Aoc2017
             {
                 var d = startSpan.Count % 2 == 0 ? 2 : 3;
 
-                var splitted = startSpan.Split().ToList();
+                var splitted = startSpan.Split(d).ToList();
 
                 var t = splitted.Select(s =>
                 {

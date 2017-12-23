@@ -269,9 +269,8 @@ namespace Aoc2017.Helpers
                 .ToArray());
         }
 
-        public static IEnumerable<List<T>> Split<T>(this List<T> l)
+        public static IEnumerable<List<T>> Split<T>(this List<T> l, int d)
         {
-            var d = l.Count % 2 == 0 ? 2 : 3;
             var d2 = d * d;
 
             if (l.Count == d2)

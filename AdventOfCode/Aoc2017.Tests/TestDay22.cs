@@ -3,19 +3,20 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+   
 
     public class TestDay22
     {
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD22P1))]
-        public int Part1(string input)
+        public int Part1(string input, int dim, int bursts)
         {
             var target = new Day22();
-            return target.Part1(input);
+            return target.Part1(input, dim, bursts);
         }
 
         /// <summary>Test stub for Execute(String)</summary>
+        [Ignore("Inprogress")]
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD22P2))]
         public int Part2(string input)
         {

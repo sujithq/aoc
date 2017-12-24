@@ -12,14 +12,16 @@ namespace Aoc2017
     [Flags]
     public enum Day22State
     {
-        Clean = 1,
-        Infected = 2
+        Clean,
+        Weakened,
+        Infected,
+        Flagged
     }
 
     public class Day22Point : Point
     {
         public Day22State State { get; set; }
-        public int Infections { get; set; }
+        public long Infections { get; set; }
 
         public Day22Point(int x, int y, Day22State state = Day22State.Clean) : base(x, y)
         {
@@ -31,26 +33,24 @@ namespace Aoc2017
     }
 
 
-    public class SporificaVirus
+    public class Day22
     {
-        private DirectionEnumType Direction { get; set; } = DirectionEnumType.Up;
+        protected DirectionEnumType Direction { get; set; } = DirectionEnumType.Up;
 
-        private Day22Point Current { get; set; }
+        protected Day22Point Current { get; set; }
 
         private List<Day22Point> Points { get; } = new List<Day22Point>();
 
         private Dictionary<DirectionEnumType, Day22Point> StepSize { get; } = new Dictionary<DirectionEnumType, Day22Point>();
 
 
-        public SporificaVirus(string input, int dd)
+        public Day22(string input)
         {
 
             StepSize.Add(DirectionEnumType.Up, new Day22Point(-1, 0));
             StepSize.Add(DirectionEnumType.Down, new Day22Point(1, 0));
             StepSize.Add(DirectionEnumType.Left, new Day22Point(0, -1));
             StepSize.Add(DirectionEnumType.Right, new Day22Point(0, 1));
-
-
 
             var str = input.Replace(Environment.NewLine, string.Empty).AsSpan();
             var d = (int)Math.Sqrt(str.Length);
@@ -91,13 +91,13 @@ namespace Aoc2017
             return x;
         }
 
-        public int Infected
+        public long Infected
         {
             get { return Points.Sum(c => c.Infections); }
         }
 
 
-        public void Burst()
+        public virtual void Burst()
         {
             if (Current.State == Day22State.Infected)
             {
@@ -121,7 +121,7 @@ namespace Aoc2017
             Step();
         }
 
-        private void Step()
+        protected void Step()
         {
             Current = Current + StepSize[Direction];
 
@@ -136,7 +136,7 @@ namespace Aoc2017
             }
         }
 
-        private void TurnLeft()
+        protected void TurnLeft()
         {
             switch (Direction)
             {
@@ -157,7 +157,7 @@ namespace Aoc2017
             }
         }
 
-        private void TurnRight()
+        protected void TurnRight()
         {
             switch (Direction)
             {
@@ -176,6 +176,16 @@ namespace Aoc2017
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        
+
+    }
+
+    public class Day22Modified : Day22
+    {
+        public Day22Modified(string input) : base(input)
+        {
         }
 
         private void TurnBack()
@@ -199,23 +209,46 @@ namespace Aoc2017
             }
         }
 
-    }
-
-    public class Day22
-    {
-        public int Part1(string input, int dimension, int bursts)
+        public override void Burst()
         {
-            var sot = new SporificaVirus(input, dimension);
-            for (var i = 0; i < bursts; i++)
+            switch (Current.State)
             {
-                sot.Burst();
+                case Day22State.Clean:
+                    TurnLeft();
+                    break;
+                case Day22State.Weakened:
+                    break;
+                case Day22State.Infected:
+                    TurnRight();
+                    break;
+                case Day22State.Flagged:
+                    TurnBack();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            return sot.Infected;
-        }
 
-        public int Part2(string input)
-        {
-            return int.MinValue;
+            switch (Current.State)
+            {
+                case Day22State.Clean:
+                    Current.State = Day22State.Weakened;
+                    break;
+                case Day22State.Weakened:
+                    Current.State = Day22State.Infected;
+                    Current.Infections++;
+                    break;
+                case Day22State.Infected:
+                    Current.State = Day22State.Flagged;
+                    break;
+                case Day22State.Flagged:
+                    Current.State = Day22State.Clean;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Step();
         }
     }
+
+    
 }

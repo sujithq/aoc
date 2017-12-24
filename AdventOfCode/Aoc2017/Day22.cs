@@ -12,20 +12,16 @@ namespace Aoc2017
     [Flags]
     public enum Day22State
     {
-        Initial = 0,
         Clean = 1,
         Infected = 2
     }
 
     public class Day22Point : Point
     {
-        public Day22State State { get; set; } = Day22State.Initial | Day22State.Clean;
+        public Day22State State { get; set; }
         public int Infections { get; set; }
-        public Day22Point(Point p) : base(p)
-        {
-        }
 
-        public Day22Point(int x, int y, Day22State state = Day22State.Initial | Day22State.Clean) : base(x, y)
+        public Day22Point(int x, int y, Day22State state = Day22State.Clean) : base(x, y)
         {
             State = state;
         }
@@ -37,18 +33,16 @@ namespace Aoc2017
 
     public class SporificaVirus
     {
+        private DirectionEnumType Direction { get; set; } = DirectionEnumType.Up;
 
-        public DirectionEnumType Direction { get; set; } = DirectionEnumType.Up;
+        private Day22Point Current { get; set; }
 
-        public Day22Point Current { get; set; } = new Day22Point(0, 0);
+        private List<Day22Point> Points { get; } = new List<Day22Point>();
 
-        public List<Day22Point> Points { get; set; } = new List<Day22Point>();
-
-
-        public Dictionary<DirectionEnumType, Day22Point> StepSize { get; set; } = new Dictionary<DirectionEnumType, Day22Point>();
+        private Dictionary<DirectionEnumType, Day22Point> StepSize { get; } = new Dictionary<DirectionEnumType, Day22Point>();
 
 
-        public SporificaVirus(string input, int d)
+        public SporificaVirus(string input, int dd)
         {
 
             StepSize.Add(DirectionEnumType.Up, new Day22Point(-1, 0));
@@ -56,8 +50,27 @@ namespace Aoc2017
             StepSize.Add(DirectionEnumType.Left, new Day22Point(0, -1));
             StepSize.Add(DirectionEnumType.Right, new Day22Point(0, 1));
 
-            var x = new List<List<char>>();
 
+
+            var str = input.Replace(Environment.NewLine, string.Empty).AsSpan();
+            var d = (int)Math.Sqrt(str.Length);
+            var x = To2D(str, d).ToList();
+
+            for (var k = 0; k < d; k++)
+            {
+                for (var l = 0; l < d; l++)
+                {
+                    Points.Add(new Day22Point(k, l, x[k][l] == '.' ? Day22State.Clean : Day22State.Infected));
+                }
+            }
+
+
+            Current = Points[Points.Count / 2 + Points.Count % (Points.Count / 2) - 1];
+        }
+
+        private static IEnumerable<List<char>> To2D(ReadOnlySpan<char> str, int d)
+        {
+            var x = new List<List<char>>();
             for (var j = 0; j < d; j++)
             {
                 x.Add(new List<char>());
@@ -65,10 +78,7 @@ namespace Aoc2017
                 {
                     x[j].Add(default);
                 }
-
             }
-
-            var str = input.Replace(Environment.NewLine, string.Empty).ToList();
 
             for (var k = 0; k < d; k++)
             {
@@ -76,12 +86,9 @@ namespace Aoc2017
                 {
                     var index = k * d + l;
                     x[k][l] = str[index];
-
-                    Points.Add(new Day22Point(k, l, str[index] == '.' ? Day22State.Initial | Day22State.Clean : Day22State.Initial | Day22State.Infected));
                 }
             }
-
-            Current = Points[Points.Count / 2 + Points.Count % (Points.Count / 2) - 1];
+            return x;
         }
 
         public int Infected
@@ -129,7 +136,7 @@ namespace Aoc2017
             }
         }
 
-        public void TurnLeft()
+        private void TurnLeft()
         {
             switch (Direction)
             {
@@ -150,7 +157,7 @@ namespace Aoc2017
             }
         }
 
-        public void TurnRight()
+        private void TurnRight()
         {
             switch (Direction)
             {
@@ -165,6 +172,27 @@ namespace Aoc2017
                     break;
                 case DirectionEnumType.Right:
                     Direction = DirectionEnumType.Down;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void TurnBack()
+        {
+            switch (Direction)
+            {
+                case DirectionEnumType.Up:
+                    Direction = DirectionEnumType.Down;
+                    break;
+                case DirectionEnumType.Down:
+                    Direction = DirectionEnumType.Up;
+                    break;
+                case DirectionEnumType.Left:
+                    Direction = DirectionEnumType.Right;
+                    break;
+                case DirectionEnumType.Right:
+                    Direction = DirectionEnumType.Left;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Aoc2017.Helpers;
 
 namespace Aoc2017
@@ -49,6 +50,10 @@ namespace Aoc2017
             if (input.IsNullOrEmpty())
                 return int.MinValue;
 
+            //var g = input.Clean().Garbage().ToList();
+
+            //return g.Select(s => s.Replace("!", "")).Select(ss => ss.Substring(1, ss.Length - 2)).Sum(s => s.Length);
+
             var span = input.AsSpan();
 
             var isGarbage = false;
@@ -57,21 +62,29 @@ namespace Aoc2017
             {
                 switch (span[i])
                 {
+                    case '{':
+                        if (isGarbage)
+                            ++numOfGarbageCharacters;
+                        break;
+                    case '}':
+                        if (isGarbage)
+                            ++numOfGarbageCharacters;
+                        break;
                     case '<':
                         if (isGarbage)
                             ++numOfGarbageCharacters;
                         isGarbage = true;
-                        continue;
+                        break;
                     case '>':
                         isGarbage = false;
-                        continue;
+                        break;
                     case '!':
                         ++i;
-                        continue;
+                        break;
                     default:
                         if (isGarbage)
                             ++numOfGarbageCharacters;
-                        continue;
+                        break;
                 }
             }
 

@@ -47,6 +47,7 @@ namespace Aoc2017
                 var x = v.Split('/').Select(s => s + "/").ToList();
                 return new HashSet<string>(x);
             });
+
             VariantsEndsWith = Components.ToDictionary(k => k, v =>
             {
                 var x = v.Split('/').Select(s => "/" + s).ToList();
@@ -54,12 +55,13 @@ namespace Aoc2017
             });
 
             Values = Components.ToDictionary(k => k, v => v.Split('/').Select(int.Parse).Sum());
+            Components = Values.OrderByDescending(o => o.Value).Select(s=>s.Key).ToList();
 
-            StartComponents = Components.Where(w => w.StartsWith("0/")).ToList();
+            StartComponents = Components.Where(w => w.StartsWith("0/") || w.EndsWith("/0")).ToList();
 
-            Components.RemoveAll(p => p.StartsWith("0/"));
+            Components.RemoveAll(p => p.StartsWith("0/") || p.EndsWith("/0"));
 
-            Nodes = StartComponents.Select(s => new Day24Node() { Component = s, StartComponent = s }).ToList();
+            Nodes = StartComponents.Select(s => new Day24Node { Component = s, StartComponent = s }).ToList();
 
 
             Parallel.ForEach(Nodes, ProcessChildren);
@@ -93,7 +95,7 @@ namespace Aoc2017
 
                 Parallel.ForEach(cs, c =>
                 {
-                    var n = new Day24Node() { Component = c, Parent = node.Component, StartComponent = node.StartComponent };
+                    var n = new Day24Node { Component = c, Parent = node.Component, StartComponent = node.StartComponent };
                     n.Parents.AddRange(node.Parents);
                     if (!n.Parents.Contains(node.Component))
                         n.Parents.Add(node.Component);
@@ -107,15 +109,11 @@ namespace Aoc2017
 
             node.Value = node.Parents.Select(s => Values[s]).Sum();
 
-            _textWriter.WriteLine("Processed {0} => {1}", string.Join("--", node.Parents), node.Value);
-
             lock (_sync)
             {
-                if (node.Value > MaxValue)
-                {
-                    MaxValue = node.Value;
-                    _textWriter.WriteLine("New Max {0} => {1}", string.Join("--", node.Parents), node.Value);
-                }
+                if (node.Value <= MaxValue) return;
+                MaxValue = node.Value;
+                _textWriter.WriteLine("New Max {0} => {1}", string.Join("--", node.Parents), node.Value);
             }
         }
 

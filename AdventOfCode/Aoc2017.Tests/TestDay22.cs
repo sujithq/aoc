@@ -3,24 +3,35 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
+
 
     public class TestDay22
     {
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD22P1))]
-        public int Part1(string input)
+        public long Part1(string input, int bursts)
         {
-            var target = new Day22();
-            return target.Part1(input);
+            var sot = new Day22(input);
+            for (var i = 0; i < bursts; i++)
+            {
+                sot.Burst();
+                TestContext.Progress.WriteLine($"Burst {i + 1}  => {sot.Infected}");
+            }
+            return sot.Infected;
         }
 
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD22P2))]
-        public int Part2(string input)
+        public long Part2(string input, int bursts)
         {
-            var target = new Day22();
-            return target.Part2(input);
+            var sot = new Day22Modified(input);
+            for (var i = 0; i < bursts; i++)
+            {
+                sot.Burst();
+                if (i % 10000 == 0)
+                    TestContext.Progress.WriteLine($"Burst {i + 1}  => {sot.Infected}");
+            }
+            return sot.Infected;
         }
     }
 }

@@ -3,24 +3,33 @@
 namespace Aoc2017.Tests
 {
     [TestFixture]
-    [Ignore("Inprogress")]
-
+    
     public class TestDay23
     {
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD23P1))]
-        public int Part1(string input)
+        public long Part1(string input)
         {
-            var target = new Day23();
-            return target.Part1(input);
+            var target = new Day23(input);
+
+            while (target.Burst())
+            {
+                
+            }
+            return target.Muls;
         }
 
         /// <summary>Test stub for Execute(String)</summary>
         [Test, TestCaseSource(typeof(TestDataClass), nameof(TestDataClass.TcD23P2))]
-        public int Part2(string input)
+        public long Part2(string input)
         {
-            var target = new Day23();
-            return target.Part2(input);
+            var target = new Day23(input, 1);
+
+            while (target.Burst())
+            {
+
+            }
+            return target.Register['h'];
         }
     }
 }
